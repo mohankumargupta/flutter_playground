@@ -1,115 +1,116 @@
 import 'package:flutter/material.dart';
+import 'package:pretty_gauge/pretty_gauge.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() => runApp(const MyApp());
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  MyAppState createState() => MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('CustomGauge example app'),
+          ),
+          body: Container(
+              color: Colors.grey[200],
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Row(children: <Widget>[
+                      PrettyGauge(
+                        needleColor: Colors.transparent,
+                        showMarkers: false,
+                        gaugeSize: 200,
+                        minValue: 0,
+                        maxValue: 100,
+                        segments: [
+                          GaugeSegment('Low', 60, Colors.red),
+                          //GaugeSegment('Medium', 40, Colors.orange),
+                          GaugeSegment('High', 100 - 60,
+                              const Color.fromRGBO(10, 10, 10, 0.1)),
+                        ],
+                        currentValue: 60,
+                        displayWidget:
+                            const Text('boo', style: TextStyle(fontSize: 12)),
+                      ),
+                      PrettyGauge(
+                        gaugeSize: 200,
+                        segments: [
+                          GaugeSegment('Critically Low', 10, Colors.red),
+                          GaugeSegment('Low', 20, Colors.orange),
+                          GaugeSegment('Medium', 20, Colors.yellow),
+                          GaugeSegment('High', 50, Colors.green),
+                        ],
+                        currentValue: 45,
+                        needleColor: Colors.red,
+                        showMarkers: false,
+                        displayWidget: const Text('Fuel in tank',
+                            style: TextStyle(fontSize: 12)),
+                      ),
+                    ]),
+                    Row(children: <Widget>[
+                      PrettyGauge(
+                        gaugeSize: 100,
+                        segments: [
+                          GaugeSegment('Low', 20, Colors.blue[200]!),
+                          GaugeSegment('Medium', 40, Colors.blue),
+                          GaugeSegment('High', 40, Colors.blue[800]!),
+                        ],
+                        currentValue: 70,
+                        displayWidget:
+                            const Text('Temp', style: TextStyle(fontSize: 12)),
+                      ),
+                      PrettyGauge(
+                        gaugeSize: 100,
+                        segments: [
+                          GaugeSegment('Critically Low', 10, Colors.red),
+                          GaugeSegment('Low', 20, Colors.orange),
+                          GaugeSegment('Medium', 20, Colors.yellow),
+                          GaugeSegment('High', 50, Colors.green),
+                        ],
+                        currentValue: 45,
+                        needleColor: Colors.blue,
+                        showMarkers: false,
+                        valueWidget: Container(),
+                        displayWidget:
+                            const Text('Fuel', style: TextStyle(fontSize: 12)),
+                      ),
+                      PrettyGauge(
+                        gaugeSize: 100,
+                        minValue: 30,
+                        maxValue: 150,
+                        segments: [
+                          GaugeSegment('Low', 20, Colors.red),
+                          GaugeSegment('Slightly Low', 20, Colors.yellow),
+                          GaugeSegment('Correct', 20, Colors.green),
+                          GaugeSegment('High', 60, Colors.orange),
+                        ],
+                        currentValue: 72,
+                        displayWidget:
+                            const Text('Pulse', style: TextStyle(fontSize: 12)),
+                      ),
+                      PrettyGauge(
+                        minValue: 0,
+                        maxValue: 150,
+                        gaugeSize: 100,
+                        segments: [
+                          GaugeSegment('Good', 80, Colors.green),
+                          GaugeSegment('High', 70, Colors.red),
+                        ],
+                        currentValue: 75,
+                        showMarkers: false,
+                        displayWidget:
+                            const Text('Speed', style: TextStyle(fontSize: 12)),
+                      ),
+                    ])
+                  ])),
+        ));
   }
 }

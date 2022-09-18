@@ -187,10 +187,15 @@ class _PrettyGaugeState extends State<PrettyGauge> {
         CustomPaint(
           size: Size(widget.gaugeSize, widget.gaugeSize),
           painter: ArcPainter(
-              startAngle: 0.75 * math.pi,
-              sweepAngle: 1.5 *
+              //Mohan
+              startAngle: 1.0 * math.pi,
+              sweepAngle: 1.0 *
                   ((gaugeSpread - cumulativeSegmentSize) / gaugeSpread) *
                   math.pi,
+              //startAngle: 0.75 * math.pi,
+              //sweepAngle:  *
+              //    ((gaugeSpread - cumulativeSegmentSize) / gaugeSpread) *
+              //    math.pi,
               color: segment.segmentColor),
         ),
       );
@@ -216,9 +221,9 @@ class _PrettyGaugeState extends State<PrettyGauge> {
     if (_currentValueDecimalPlaces < 0) {
       _currentValueDecimalPlaces = 0;
     }
-     if (_currentValueDecimalPlaces > 20) {
+    if (_currentValueDecimalPlaces > 20) {
       _currentValueDecimalPlaces = 20;
-    }   
+    }
 
     //If segments is supplied, validate that the sum of all segment sizes = (maxValue - minValue)
     if (_segments != null) {
@@ -286,11 +291,12 @@ class _PrettyGaugeState extends State<PrettyGauge> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                widget.displayWidget ?? Container(),
+                //Mohan, swapped these around
                 widget.valueWidget ??
                     Text(
                         '${_currentValue.toStringAsFixed(_currentValueDecimalPlaces)}',
                         style: const TextStyle(fontSize: 10)),
+                widget.displayWidget ?? Container(),
               ],
             ),
           ),
