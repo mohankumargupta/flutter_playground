@@ -25,12 +25,12 @@ class MyAppState extends State<MyApp> {
       home: Scaffold(
         body: Center(
           child: SizedBox(
-            width: 750,
-            height: 750,
+            width: 492 * 2,
+            height: 492 * 2,
             child: FlutterMap(
               options: MapOptions(
                 center: LatLng(-37.96775624991637, 145.25861768465924),
-                zoom: 5,
+                zoom: 7,
               ),
               children: [
                 /*
@@ -40,9 +40,16 @@ class MyAppState extends State<MyApp> {
                 ),
                 */
                 TileLayer(
+                    urlTemplate:
+                        'https://server.arcgisonline.com/ArcGIS/rest/services/world_imagery/MapServer/tile/{z}/{y}/{x}',
+                    userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                    //opacity: 0.5,
+
+                    opacity: 1),
+                TileLayer(
                   urlTemplate:
-                      'https://server.arcgisonline.com/ArcGIS/rest/services/world_imagery/MapServer/tile/{z}/{y}/{x}',
-                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                      'https://radar-tiles.service.bom.gov.au/tiles/202209180530/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'dev.fleaflet.flutter_map.example2',
                 ),
               ],
             ),
