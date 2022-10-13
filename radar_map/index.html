@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <title>BOM Radar card</title>
+    <style type="text/css">
+        #map {
+            height: 492px;
+            width: 492px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="rawdatevalueutc"></div>
+    <div id="datestring"></div>
+
+
+    <script type="text/javascript">
+        const map = L.map('map', {
+            /*
+                      maxBounds: [
+                          [0, 101.25],
+                          [-55.77657, 168.75],
+                        ],
+                        */
+        }).setView([-37.9677139591347, 145.25869278650552], 6);
+
+        const basemap_url = "https://server.arcgisonline.com/ArcGIS/rest/services/{style}/MapServer/tile/{z}/{y}/{x}"
+        var basemap_style = 'World_Imagery';
+        L.tileLayer(
+            basemap_url,
+            {
+                style: basemap_style,
+                subdomains: 'abcd',
+                detectRetina: true,
+                tileSize: 256,
+                zoomOffset: 0,
+            },
+        ).addTo(map);
+        var tileURL = 'https://radar-tiles.service.bom.gov.au/tiles/{time}/{z}/{x}/{y}.png';
+
+        var tileURL2 = 'https://radar-tiles.service.bom.gov.au/tiles/202210112230/{z}/{x}/{y}.png';
+
+
+        var tileURL3 = 'https://radar-tiles.service.bom.gov.au/tiles/202210120330/{z}/{x}/{y}.png';
+
+
+        function getRadarTime(date) {
+            x = new Date(date);
+
+            return (
+                x.getUTCFullYear().toString() +
+                (x.getUTCMonth() + 1).toString().padStart(2, '0') +
+                x
+                    .getUTCDate()
+                    .toString()
+                    .padStart(2, '0') +
+                x
+                    .getUTCHours()
+                    .toString()
+                    .padStart(2, '0') +
+                (Math.floor(x.getUTCMinutes() / 10) * 10)
+                    .toString()
+                    .padStart(2, '0')
+
+            );
+        }
+
+        const d = new Date();
+        // Radar weather images only available in 10 minutes intervals on the hour (eg. 22:00, 22:10, 22:20, ...)
+        // also there is a lag of 10 minutes.
+        // So if the current time is 22:43, need retrieve images for 22:30
+        // so some math needed. 
+        d.setTime(d.valueOf() - 600000);
+        const z = getRadarTime(d);
+        // time 10 minutes ago, then further rounded down to the lower 10 minute interval
+        document.querySelector("#rawdatevalueutc").innerHTML = z;
+        // time 10 minutes ago
+        document.querySelector("#datestring").innerHTML = d.toString();
+
+
+        L.tileLayer(tileURL, {
+            time: z,
+            detectRetina: true,
+            tileSize: 256,
+            zoomOffset: 0,
+            opacity: 1.0,
+
+        }).addTo(map);
+
+    </script>
+</body>
+
+</html>

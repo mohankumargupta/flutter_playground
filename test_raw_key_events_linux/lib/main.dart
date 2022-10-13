@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
         body: RawKeyboardListener(
           child: TextField(),
           focusNode: FocusNode(),
-          onKey: (event) async {
-            if (event.runtimeType == RawKeyDownEvent) {
-              debugPrint(
-                  'id: ${event.logicalKey.keyId}, label: ${event.logicalKey.keyLabel} debugName: ${event.logicalKey.debugName}');
-            }
+          onKey: (RawKeyEvent event) async {
+            //if (event.runtimeType == RawKeyDownEvent) {
+            debugPrint(
+                'id: ${event.logicalKey.keyId}, label: ${event.logicalKey.keyLabel} debugName: ${event.logicalKey.debugName} keycode: ${event.toString()}');
+            //}
           },
         ),
       ),
