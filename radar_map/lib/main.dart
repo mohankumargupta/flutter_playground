@@ -33,12 +33,6 @@ class MyAppState extends State<MyApp> {
                 zoom: 7,
               ),
               children: [
-                /*
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-                ),
-                */
                 TileLayer(
                     urlTemplate:
                         'https://server.arcgisonline.com/ArcGIS/rest/services/world_imagery/MapServer/tile/{z}/{y}/{x}',
