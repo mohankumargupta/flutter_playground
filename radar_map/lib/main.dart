@@ -48,8 +48,10 @@ class MyAppState extends State<MyApp> {
                     opacity: 1),
                 TileLayer(
                   urlTemplate:
-                      'https://radar-tiles.service.bom.gov.au/tiles/202209180530/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'dev.fleaflet.flutter_map.example2',
+                      'https://radar-tiles.service.bom.gov.au/tiles/202210130030/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                  opacity: 1,
+                  backgroundColor: Colors.transparent,
                 ),
               ],
             ),
