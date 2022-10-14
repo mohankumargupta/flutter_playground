@@ -47,6 +47,14 @@ class MyAppState extends State<MyApp> {
                   opacity: 1,
                   backgroundColor: Colors.transparent,
                 ),
+                TileLayer(
+                  urlTemplate:
+                      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png',
+                  subdomains: const ["a", "b", "c", "d"],
+                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                  opacity: 1,
+                  backgroundColor: Colors.transparent,
+                ),
               ],
             ),
           ),
