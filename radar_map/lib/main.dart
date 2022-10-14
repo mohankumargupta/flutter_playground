@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -14,9 +16,41 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
+  Timer? timer;
+
   @override
   void initState() {
     super.initState();
+
+    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      final currentTime = getRadarTime();
+      debugPrint(currentTime);
+    });
+    final currentTime = getRadarTime();
+    debugPrint(currentTime);
+  }
+
+  String twoDigits(int n) {
+    if (n >= 10) return "$n";
+    return "0$n";
+  }
+
+  String fourDigits(int n) {
+    int absN = n.abs();
+    String sign = n < 0 ? "-" : "";
+    if (absN >= 1000) return "$n";
+    if (absN >= 100) return "${sign}0$absN";
+    if (absN >= 10) return "${sign}00$absN";
+    return "${sign}000$absN";
+  }
+
+  String getRadarTime() {
+    var now = DateTime.now();
+    now = now.subtract(const Duration(minutes: 10));
+    final minute = twoDigits((now.minute / 10).floor() * 10);
+    final result =
+        "${fourDigits(now.year)}${twoDigits(now.month)}${twoDigits(now.day)}${twoDigits(now.hour)}$minute";
+    return result;
   }
 
   @override
